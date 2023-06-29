@@ -1,0 +1,89 @@
+#CP3.1
+1. bootlooping
+-> wrong sizing on GDT
+2.# errors 
+->"header file errors"
+.S files were included .
+
+3. #errors
+->  "_" character not recognized
+We were getting this error because the function in wrapper.S were defined in an incorrect format.
+
+4, #errors
+->  "unrecognized charcater"
+We were getting this error becaus the interrupt handlers being passed in set idt were not defined in header file of wrapper.
+
+5, #errors
+
+->   "void value not ignored as it ought to be"
+We were getting this error because our function declarations were incorrect.
+
+6, RTC Testing Adequecy
+-> Forgot to add a fail test for RTC hat ensure that the rates are powers of 2
+
+
+#CP3.2
+7, RTC Init
+-> Did not disable interrupts for init of RTC which caused problems during hceckpoint 1 while trying ti initialise RTC and call the interrupts
+
+8, File System
+->File System test was page faulting, thought the datablock was a memory address instead of an index
+
+9, File System
+->Was not dereferencing the data read from file when setting buf equal to it
+
+
+#CP3.3
+10. page fault if a faulty file name was put in 
+-> pid paging was being called before varifying if the file is valid 
+
+11. sys_read sys_write returning -1 with correct register values
+-> in systemcall handler we were pushing in eflags as the arguments instead of ebx ecx edx
+
+12. General Protection Fault:
+
+-> due to incorrect pushing of values in context switch
+
+
+#CP3.4
+
+11. page fault when trying to run fish
+-> page dir page table and video page table were set to static
+
+12. page fault when halting
+-> We weren't pushing status on the stack
+
+13. can only halt twice 
+-> we werent restoring file despritor array to the pervious one (PCB_parent->file_descriptor)
+
+14. GREP was causing a pagefault and gave random symbols 
+->when opening the last file the offset didnt reset in file offset trying to read values that werent there 
+    changes were made in read_dentry_by_name which now returns offset-original
+
+15. syserr was pagefaulting at file open 
+-> did not have an empty string check, added it to file open 
+
+#CP3.5
+
+16. PAGE FAULT & RESTART
+-> Enable interrupt when initializing RTC, which allows scheduling before initializing terminals so we set curr_pid to -1 initially, and add a conditional check for this at the begin of the scheduler
+
+17. The multiterminal skipped to terminal 3
+-> The order in which we execute shells was weird 
+
+18.  grep print out something when we does not enter arg
+-> check no argument case in get_args
+
+19. re initialized execute everytime pit handler was used
+-> we initallized everything in pit handeler which we moved to terminal switching
+
+20. page faults the 3rd time shell was called
+-> didnt flush TLB, then we flushed it 
+
+
+
+
+
+
+
+
