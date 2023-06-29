@@ -1,0 +1,1 @@
+ece391syscall.o: ece391syscall.S ece391sysnum.h
